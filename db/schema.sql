@@ -1,0 +1,3 @@
+DROP DATABASE IF EXISTS momblog_db;
+
+CREATE DATABASE momblog_db;
