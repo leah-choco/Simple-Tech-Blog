@@ -1,4 +1,9 @@
 # Simple-Tech-Blog
+Deployed Link:
+
+## Goals of this Project:
+
+## Installation
 
 
 ## Acceptance Criteria
