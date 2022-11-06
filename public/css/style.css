@@ -1,0 +1,13 @@
+.navbar{
+    background-color: rgb(247, 176, 247);
+    border-bottom: 10px;
+    border-color: black;
+}
+
+#sign-up{
+    background-color: cornflowerblue;
+}
+
+#tech-name{
+    font-size: 30px;
+}
