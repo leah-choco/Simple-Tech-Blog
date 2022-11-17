@@ -32,9 +32,9 @@ class User extends Model {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-          len: [8],
-        }
-      }
+          len: [1],
+        },
+      },
     },
     {
       hooks: {
@@ -43,9 +43,12 @@ class User extends Model {
           return newUserData;
         },
         beforeUpdate: async (updatedUserData) => {
-          updatedUserData.password = await bcrypt.hash(updatedUserData.password, 10);
+          updatedUserData.password = await bcrypt.hash(
+            updatedUserData.password, 
+            10
+          );
           return updatedUserData;
-        }
+        },
       },
       sequelize,
       timestamps: true,

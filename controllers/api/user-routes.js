@@ -4,20 +4,16 @@ const { User } = require('../../models');
 //Creating a new user
 router.post('/', async (req, res) => {
   try {
-    const newUser = await User.create({
-      username: req.body.username,
-      password: req.body.password,
-    });
-
+    const newUser = await User.create(req.body);
+    
     req.session.save(() => {
       req.session.userId = newUser.id;
-      req.session.username = newUser.username;
       req.session.loggedIn = true;
 
-      res.json(newUser);
+      res.status(200).json(newUser);
     });
   } catch (err) {
-    res.status(500).json(err);
+    res.status(400).json(err);
   }
 });
 
@@ -26,7 +22,7 @@ router.post('/login', async (req, res) => {
   try {
     const user = await User.findOne({
       where: {
-        username: req.body.username,
+        email: req.body.email
       },
     });
 
@@ -35,7 +31,7 @@ router.post('/login', async (req, res) => {
       return;
     }
 
-    const validPassword = user.checkPassword(req.body.password);
+    const validPassword = await user.checkPassword(req.body.password);
 
     if (!validPassword) {
       res.status(400).json({ message: 'No user account found!' });
@@ -44,13 +40,12 @@ router.post('/login', async (req, res) => {
 
     req.session.save(() => {
       req.session.userId = user.id;
-      req.session.username = user.username;
       req.session.loggedIn = true;
 
       res.json({ user, message: 'You are now logged in!' });
     });
   } catch (err) {
-    res.status(400).json({ message: 'No user account found!' });
+    res.status(400).json(err);
   }
 });
 
