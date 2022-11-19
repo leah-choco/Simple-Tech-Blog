@@ -24,8 +24,8 @@ router.get("/", withAuth, async (req, res) => {
 });
 
 //Getting the card for a new post
-router.get("/new", withAuth, (req, res) => {
-  res.render("new-post", {
+router.get("/blog", withAuth, (req, res) => {
+  res.render("blog", {
     layout: "dashboard",
   });
 });
@@ -38,7 +38,7 @@ router.get("/edit/:id", withAuth, async (req, res) => {
     if (blogData) {
       const blog = blogData.get({ plain: true });
 
-      res.render("edit-post", {
+      res.render("editpost", {
         layout: "dashboard",
         blog,
       });
