@@ -1,11 +1,11 @@
-const router = require('express').Router();
-const { User } = require('../../models');
+const router = require("express").Router();
+const { User } = require("../../models");
 
 //Creating a new user
-router.post('/', async (req, res) => {
+router.post("/", async (req, res) => {
   try {
     const newUser = await User.create(req.body);
-    
+
     req.session.save(() => {
       req.session.userId = newUser.id;
       req.session.loggedIn = true;
@@ -18,23 +18,23 @@ router.post('/', async (req, res) => {
 });
 
 //Comparing user input to current data
-router.post('/login', async (req, res) => {
+router.post("/login", async (req, res) => {
   try {
     const user = await User.findOne({
       where: {
-        email: req.body.email
+        email: req.body.email,
       },
     });
 
     if (!user) {
-      res.status(400).json({ message: 'No user account found!' });
+      res.status(400).json({ message: "No user account found!" });
       return;
     }
 
     const validPassword = await user.checkPassword(req.body.password);
 
     if (!validPassword) {
-      res.status(400).json({ message: 'No user account found!' });
+      res.status(400).json({ message: "No user account found!" });
       return;
     }
 
@@ -42,7 +42,7 @@ router.post('/login', async (req, res) => {
       req.session.userId = user.id;
       req.session.loggedIn = true;
 
-      res.json({ user, message: 'You are now logged in!' });
+      res.json({ user, message: "You are now logged in!" });
     });
   } catch (err) {
     res.status(400).json(err);
@@ -50,7 +50,7 @@ router.post('/login', async (req, res) => {
 });
 
 //Destroying session when logged out
-router.post('/logout', (req, res) => {
+router.post("/logout", (req, res) => {
   if (req.session.loggedIn) {
     req.session.destroy(() => {
       res.status(204).end();
