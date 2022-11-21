@@ -15,6 +15,14 @@ router.post("/", withAuth, async (req, res) => {
   }
 });
 
+router.post("/", (req, res) => {
+  if (req.session.logged_in) {
+    res.redirect("/dashboard");
+    return;
+  }
+  res.render("login");
+});
+
 //Getting the blog post the user wants to edit
 router.get("/edit/:id", async (req, res) => {
   try {
