@@ -1,15 +1,31 @@
 const router = require("express").Router();
-const { BlogPost } = require("../../models/");
+const { BlogPost, Comments } = require("../../models/");
 const withAuth = require("../../utils/auth");
 
 //Creating a new blog post
 router.post("/", withAuth, async (req, res) => {
   try {
-    const newPost = await BlogPost.create({
+    const newBlog = await BlogPost.create({
       ...req.body,
-      userId: req.session.userId,
+      user_id: req.session.user_id,
     });
-    res.status(200).json(newPost);
+    res.status(200).json(newBlog);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+//Getting the blog post the user wants to edit
+router.get("/edit/:id", async (req, res) => {
+  try {
+    const blogsData = await BlogPost.findByPk(req.params.id);
+
+    const edit = blogsData.get({ plain: true });
+
+    res.render("editpost", {
+      ...edit,
+      logged_in: req.session.logged_in,
+    });
   } catch (err) {
     res.status(500).json(err);
   }
@@ -18,16 +34,16 @@ router.post("/", withAuth, async (req, res) => {
 //Updating an existing blog post
 router.put("/:id", withAuth, async (req, res) => {
   try {
-    const blogData = await BlogPost.update(req.body, {
+    const blogsData = await BlogPost.update(req.body, {
       where: {
         id: req.params.id,
       },
     });
-    if (!blogData[0]) {
+    if (!blogsData[0]) {
       res.status(404).json({ message: `No blog posts found with that id.` });
       return;
     }
-    res.status(200).json(blogData);
+    res.status(200).json(blogsData);
   } catch (err) {
     res.status(500).json(err);
   }
@@ -36,17 +52,17 @@ router.put("/:id", withAuth, async (req, res) => {
 //Deleting existing blog post
 router.delete("/:id", async (req, res) => {
   try {
-    const blogData = await BlogPost.destroy({
+    const blogsData = await BlogPost.destroy({
       where: {
         id: req.params.id,
       },
     });
 
-    if (!blogData) {
+    if (!blogsData) {
       res.status(400).json({ message: "No blog posts found with that id" });
       return;
     }
-    res.status(200).json(blogData);
+    res.status(200).json(blogsData);
   } catch (err) {
     res.status(500).json(err);
   }
