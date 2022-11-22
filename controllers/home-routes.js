@@ -5,6 +5,15 @@ const withAuth = require("../utils/auth");
 //Gets any existing blog posts
 router.get("/", async (req, res) => {
   try {
+    const blogsData = await BlogPost.findAll({
+      include: [
+        {
+          model: User,
+          attributes: ["name"],
+        },
+      ],
+    });
+    const blog = blogsData.map((blog) => blog.get({ plain: true }));
     res.render("homepage", {
       logged_in: req.session.logged_in,
     });
@@ -38,6 +47,15 @@ router.get("/blog", (req, res) => {
     return;
   }
   res.render("blog");
+});
+
+//Get the single post form
+router.get("/singlepost", (req, res) => {
+  if (!req.session.logged_in) {
+    res.sendStatus(404);
+    return;
+  }
+  res.render("singlepost");
 });
 
 //Get the edit blog form

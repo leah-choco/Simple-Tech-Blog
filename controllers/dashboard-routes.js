@@ -30,31 +30,21 @@ router.get("/", withAuth, async (req, res) => {
   }
 });
 
-//Getting the card for a new post
-/*router.get("/blog", withAuth, (req, res) => {
-  res.render("blog", {
-    layout: "dashboard",
-  });
-});
-
 //Allows the user to edit a single post
-router.get("/edit/:id", withAuth, async (req, res) => {
+router.get("/edit/:id", async (req, res) => {
   try {
     const blogData = await BlogPost.findByPk(req.params.id);
 
-    if (blogData) {
-      const blog = blogData.get({ plain: true });
+    const edit = blogData.get({ plain: true });
 
-      res.render("editpost", {
-        layout: "dashboard",
-        blog,
-      });
-    } else {
-      res.status(404).end();
-    }
+    res.render("editpost", {
+      layout: "dashboard",
+      ...edit,
+      logged_in: req.session.logged_in,
+    });
   } catch (err) {
-    res.redirect("login");
+    res.status(500).json(err);
   }
-});*/
+});
 
 module.exports = router;
