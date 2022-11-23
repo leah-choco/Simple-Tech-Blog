@@ -21,10 +21,10 @@
         {{#each blog.Comments}}
           <div>
             <p>
-              {{body}}
+              {{content}}
             </p>
             <p>
-              &mdash; {{User.name}}, {{format_date createdAt}}
+              &mdash; {{user.name}}, {{format_date createdAt}}
             </p>
           </div>
         {{/each}}
