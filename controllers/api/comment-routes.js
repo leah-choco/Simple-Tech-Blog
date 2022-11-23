@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { BlogPost, Comments } = require("../../models/");
+const { Comments } = require("../../models/");
 const withAuth = require("../../utils/auth");
 
 //Creating a new comment
@@ -9,13 +9,13 @@ router.post("/", withAuth, async (req, res) => {
       ...req.body,
       user_id: req.session.user_id,
     });
-    res.status(200).json(newComment);
+    res.json(newComment);
   } catch (err) {
-    res.status(400).json(err);
+    res.status(500).json(err);
   }
 });
 
-//Updating comments
+/*//Updating comments
 router.put("edit/:id", withAuth, async (req, res) => {
   try {
     const commentData = await Comments.update(req.body, {
@@ -50,6 +50,6 @@ router.delete("/:id", withAuth, async (req, res) => {
   } catch (err) {
     res.status(500).json(err);
   }
-});
+});*/
 
 module.exports = router;

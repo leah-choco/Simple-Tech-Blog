@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { BlogPost, Comments } = require("../../models/");
+const { BlogPost } = require("../../models/");
 const withAuth = require("../../utils/auth");
 
 //Creating a new blog post
@@ -15,16 +15,16 @@ router.post("/", withAuth, async (req, res) => {
   }
 });
 
-router.post("/", (req, res) => {
+/*router.post("/", (req, res) => {
   if (req.session.logged_in) {
     res.redirect("/dashboard");
     return;
   }
   res.render("login");
-});
+});*/
 
 //Getting the blog post the user wants to edit
-router.get("/edit/:id", async (req, res) => {
+/*router.get("/edit/:id", async (req, res) => {
   try {
     const blogsData = await BlogPost.findByPk(req.params.id);
 
@@ -37,7 +37,7 @@ router.get("/edit/:id", async (req, res) => {
   } catch (err) {
     res.status(500).json(err);
   }
-});
+});*/
 
 //Updating an existing blog post
 router.put("/:id", withAuth, async (req, res) => {
