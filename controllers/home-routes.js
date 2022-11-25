@@ -55,7 +55,7 @@ router.get("/signup", (req, res) => {
 });
 
 //Get the new blog post form
-/*router.get("/blog", (req, res) => {
+router.get("/blog", (req, res) => {
   if (!req.session.logged_in) {
     res.sendStatus(404);
     return;
@@ -77,6 +77,6 @@ router.get("edit/:id", async (req, res) => {
   } catch (err) {
     res.status(500).json(err);
   }
-});*/
+});
 
 module.exports = router;

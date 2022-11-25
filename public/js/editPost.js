@@ -1,12 +1,18 @@
-const blogId = document.querySelector('input[name="blog-id"]').value;
+//const blogId = document.querySelector('input[name="blog-id"]').value;
+
+const { response } = require("express");
 
 const editFormHandler = async function (event) {
   event.preventDefault();
 
-  const title = document.querySelector('input[name="blog-title"]').value;
-  const body = document.querySelector('textarea[name="blog-body"]').value;
+  const title = document.querySelector('input[name="blog-title"]').value.trim();
+  const body = document
+    .querySelector('textarea[name="blog-body"]')
+    .value.trim();
 
-  await fetch(`/api/blog/${blogId}`, {
+  const id = window.location.pathname.split("/")[2];
+
+  const response = await fetch(`/api/edit/${blogId}`, {
     method: "PUT",
     body: JSON.stringify({
       title,
@@ -16,16 +22,24 @@ const editFormHandler = async function (event) {
       "Content-Type": "application/json",
     },
   });
-
-  document.location.replace("/dashboard");
+  if (response.ok) {
+    document.location.replace("/dashboard");
+  } else {
+    alert(response.statusText);
+  }
 };
 
+//Deleting a post
 const deleteClickHandler = async function () {
-  await fetch(`/api/blog/${blogId}`, {
+  await fetch(`/api/edit/${id}`, {
     method: "DELETE",
   });
 
-  document.location.replace("/dashboard");
+  if (response.ok) {
+    document.location.replace("/dashboard");
+  } else {
+    alert(response.statusText);
+  }
 };
 
 document
