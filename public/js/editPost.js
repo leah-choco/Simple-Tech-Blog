@@ -1,8 +1,8 @@
 //const blogId = document.querySelector('input[name="blog-id"]').value;
 
-const { response } = require("express");
+//const { response } = require("express");
 
-const editFormHandler = async function (event) {
+const editFormHandler = async (event) => {
   event.preventDefault();
 
   const title = document.querySelector('input[name="blog-title"]').value.trim();
@@ -12,7 +12,7 @@ const editFormHandler = async function (event) {
 
   const id = window.location.pathname.split("/")[2];
 
-  const response = await fetch(`/api/edit/${blogId}`, {
+  const response = await fetch(`/api/edit/${id}`, {
     method: "PUT",
     body: JSON.stringify({
       title,
