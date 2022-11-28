@@ -2,6 +2,10 @@
 
 Deployed Link: https://pacific-gorge-59791.herokuapp.com/
 
+## Screenshot:
+
+![screenshot](./public/images/Screen%20Shot%202022-11-28%20at%2010.11.27%20AM.png)
+
 ## Goals of this Project:
 
 The goal was to use MVC (models, views, controllers) file structure to build a full-stack app. This app has the capability to have the user sign up or log-in. Then they can write blog posts, edit and delete posts as well. There is also the capability to write comments on other people's blog posts.
